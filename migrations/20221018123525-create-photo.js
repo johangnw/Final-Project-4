@@ -15,7 +15,7 @@ module.exports = {
       caption: {
         type: Sequelize.TEXT
       },
-      post_image_url: {
+      poster_image_url: {
         type: Sequelize.TEXT
       },
       UserId: {

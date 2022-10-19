@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.User);
+      
+      this.hasMany(models.Comment);
     }
   }
   Photo.init({
@@ -30,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    post_image_url: {
+    poster_image_url: {
       type: DataTypes.TEXT,
       validate: {
         notEmpty: {
@@ -42,7 +45,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       
     },
-    UserId: DataTypes.INTEGER
+    UserId: {
+      type: DataTypes.INTEGER
+    }
   }, {
     sequelize,
     modelName: 'Photo',

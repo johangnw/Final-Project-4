@@ -1,18 +1,27 @@
 const { verifyToken, response } = require("../helpers/function_helper");
+const { User } = require('../models');
 
-const authenticate = (req, res, next) => {
+exports.authenticate = async (req, res, next) => {
     try{
         const baererHeader = req.headers.authorization;
-        if(typeof token === undefined){
-            return res.status(401).send(response());
+        if(typeof baererHeader === undefined){
+            return res.status(401).send({msg: "Unauthorize"});
         }
         const baerer = baererHeader.split(' ');
         const token = baerer[1];
         const { id } = verifyToken(token);
-        req.userId = id
+
+        const user = await User.findByPk(id);
+
+        if(!user){
+            return res.status(401).send({msg: "Unauthorize"});
+        }
+
+        req.userId = id;
         next();
     }
     catch(error) {
-        return res.status(500).send(response(error,error.message));
+        console.log(error.message);
+        return res.status(401).send({ msg: 'Unauthorize' });
     }
 }

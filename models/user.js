@@ -11,9 +11,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.hasMany(models.Photo);
+      this.hasMany(models.SocialMedia);
+      this.hasMany(models.Comment);
     }
   }
   User.init({
+    id:{
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false
+    },
     full_name: {
       type: DataTypes.STRING,
       validate: {

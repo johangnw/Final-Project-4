@@ -17,5 +17,5 @@ app.use('/socialmedias',SocialMediaRouter);
 app.use('/comments',CommentRouter);
 
 app.listen(PORT,() => {
-    console.log("Server dah jalan!");
+    console.log("Server dah jalan di http://localhost:"+PORT);
 })
