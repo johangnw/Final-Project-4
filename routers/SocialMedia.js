@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const SocialMediaController = require('../controllers/SocialMediaController');
-const { authenticate } = require('../middleware/Authentication');
+const SocialMediaController = require('../controllers/SocialMediaController.js');
+const { authenticate } = require('../middleware/Authentication.js');
 
 router.post('/', authenticate, SocialMediaController.add)
 router.get('/', authenticate, SocialMediaController.getAll)
