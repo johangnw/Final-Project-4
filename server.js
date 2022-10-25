@@ -1,11 +1,11 @@
 const express = require('express');
 const { json } = require('express');
-const dotenv = require('dotenv');
+// const dotenv = require('dotenv');
 const app = express();
 const cors = require('cors');
 const { UserRouter, PhotoRouter, SocialMediaRouter, CommentRouter } = require('./routers');
 
-dotenv.config();
+// dotenv.config();
 
 app.use(cors())
 app.use(json())
