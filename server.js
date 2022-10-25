@@ -4,7 +4,7 @@ const app = express();
 const cors = require('cors');
 const { UserRouter, PhotoRouter, SocialMediaRouter, CommentRouter } = require('./routers');
 
-if(process.env.ENVIRONMENT == 'development'){
+if(process.env.NODE_ENV == 'development'){
     const dotenv = require('dotenv');
     dotenv.config();
 }
