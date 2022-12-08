@@ -17,7 +17,11 @@ module.exports = (sequelize, DataTypes) => {
   SocialMedia.init({
     name: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
+        notNull: {
+          msg: "nama tidak boleh kosong"
+        },
         notEmpty: {
           msg: "nama tidak boleh kosong"
         }
@@ -25,7 +29,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     social_media_url: {
       type: DataTypes.TEXT,
+      allowNull: false,
       validate: {
+        notNull:{
+          msg: "Url sosial media tidak boleh kosong"
+        },
         notEmpty: {
           msg: "Url sosial media tidak boleh kosong",
         },

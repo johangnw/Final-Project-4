@@ -22,26 +22,33 @@ class UserController{
 
             return res.send({token});
         } catch (error) {
-            return res.status(500).send(response(error,error.message));
+            if(error.name == 'SequelizeUniqueConstraintError'){
+                res.status(400).send(response(error,error.message));
+            }
+            else if(error.name == 'SequelizeValidationError') {
+                res.status(400).send(response(error,error['errors'][0].message));
+            }else{
+                res.status(500).send(response(error,error.message));
+            }
         }
     }
 
     static async register(req, res) {
         try {
             const { full_name, email, username, password, profile_image_url, age, phone_number } = req.body;
-
+            const newPassword = await hashPassword(password);
             const dataInsert = {
                 full_name,
                 email,
                 username,
-                password: await hashPassword(password),
+                password: newPassword,
                 profile_image_url,
                 age,
                 phone_number
             };
+            console.log(dataInsert);
 
             const data = await User.create(dataInsert);       
-
             res.status(201).send({
                 user: {
                     email : data.email,
@@ -53,13 +60,30 @@ class UserController{
                 }
             });
         } catch (error) {
-            res.status(500).send(response(error,error.message));
+            console.log(error);
+            if(error.name == 'SequelizeUniqueConstraintError'){
+                res.status(400).send(response(error,error.message));
+            }
+            else if(error.name == 'SequelizeValidationError') {
+                res.status(400).send(response(error,error['errors'][0].message));
+            }else{
+                res.status(500).send(response(error,error.message));
+            }
         }
     }
 
     static async delete(req, res) {
         try {
             const userId = req.params.userId;
+
+            if(userId != req.userId){
+                return res.status(400).send(response([],"You cannot delete other user"));
+            }
+
+            const user = await User.findByPk(userId);
+            if(!user){
+                return res.status(404).send(response([],"User not found"));
+            }
 
             await User.destroy({
                 where: {
@@ -68,12 +92,19 @@ class UserController{
             });
 
             return res.send({
-                message: "Your account has been successfully deleted"
+                msg: "Your account has been successfully deleted"
             })
 
 
         } catch (error) {
-            res.status(500).send(response(error,error.message));
+            if(error.name == 'SequelizeUniqueConstraintError'){
+                res.status(400).send(response(error,error.message));
+            }
+            else if(error.name == 'SequelizeValidationError') {
+                res.status(400).send(response(error,error['errors'][0].message));
+            }else{
+                res.status(500).send(response(error,error.message));
+            }
         }
     }
 
@@ -89,6 +120,11 @@ class UserController{
                 age,
                 phone_number
             };
+
+            const user = await User.findByPk(userId);
+            if(!user){
+                return res.status(404).send(response([],"User not found"));
+            }
 
             const data = await User.update(dataUpdate,{
                 where: {
@@ -113,7 +149,15 @@ class UserController{
             
 
         } catch (error) {
-            res.status(500).send(response(error,error.message));
+            console.log(error);
+            if(error.name == 'SequelizeUniqueConstraintError'){
+                res.status(400).send(response(error,error.message));
+            }
+            else if(error.name == 'SequelizeValidationError') {
+                res.status(400).send(response(error,error['errors'][0].message));
+            }else{
+                res.status(500).send(response(error,error.message));
+            }
         }
     }
 }

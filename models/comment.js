@@ -20,9 +20,25 @@ module.exports = (sequelize, DataTypes) => {
     PhotoId: DataTypes.INTEGER,
     comment: {
       type: DataTypes.TEXT,
+      allowNull: false,
       validate: {
+        notNull: {
+          msg: "Comment tidak boleh kosong"
+        },
         notEmpty: {
           msg: "Comment tidak boleh kosong"
+        }
+      }
+    },
+    PhotoId: {
+      type : DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Photo Id tidak boleh kosong"
+        },
+        notEmpty: {
+          msg: "Photo Id tidak boleh kosong"
         }
       }
     }

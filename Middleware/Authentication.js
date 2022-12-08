@@ -12,7 +12,6 @@ exports.authenticate = async (req, res, next) => {
         const { id } = verifyToken(token);
 
         const user = await User.findByPk(id);
-
         if(!user){
             return res.status(401).send({msg: "Unauthorize"});
         }

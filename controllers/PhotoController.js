@@ -23,7 +23,14 @@ class PhotoController{
             });
 
         } catch (error) {
-            return res.status(500).send(response(error,error.message));
+            if(error.name == 'SequelizeUniqueConstraintError'){
+                res.status(400).send(response({},error.message));
+            }
+            else if(error.name == 'SequelizeValidationError') {
+                res.status(400).send(response({},error['errors'][0].message));
+            }else{
+                res.status(500).send(response(error,error.message));
+            }
         }
     }
 
@@ -60,7 +67,14 @@ class PhotoController{
             return res.send({photo: newPhoto})
 
         } catch (error) {
-            return res.status(500).send(response(error,error.message));
+            if(error.name == 'SequelizeUniqueConstraintError'){
+                res.status(400).send(response({},error.message));
+            }
+            else if(error.name == 'SequelizeValidationError') {
+                res.status(400).send(response({},error['errors'][0].message));
+            }else{
+                res.status(500).send(response(error,error.message));
+            }
         }
     }
 
@@ -88,10 +102,17 @@ class PhotoController{
                 }]
             });
 
-            return res.send(photos);
+            return res.send({photos});
 
         } catch (error) {
-            return res.status(500).send(response(error,error.message));
+            if(error.name == 'SequelizeUniqueConstraintError'){
+                res.status(400).send(response({},error.message));
+            }
+            else if(error.name == 'SequelizeValidationError') {
+                res.status(400).send(response({},error['errors'][0].message));
+            }else{
+                res.status(500).send(response(error,error.message));
+            }
         }
     }
 
@@ -110,6 +131,7 @@ class PhotoController{
             if(!photo){
                 return res.status(404).send({ msg: "Photo not found" });
             }
+            
 
             await Photo.destroy({
                 where: {
@@ -120,7 +142,14 @@ class PhotoController{
             res.send({ msg: "Your photo has been successfully userId" });
 
         } catch (error) {
-            return res.status(500).send(response(error,error.message));
+            if(error.name == 'SequelizeUniqueConstraintError'){
+                res.status(400).send(response({},error.message));
+            }
+            else if(error.name == 'SequelizeValidationError') {
+                res.status(400).send(response({},error['errors'][0].message));
+            }else{
+                res.status(500).send(response(error,error.message));
+            }
         }
     }
 }

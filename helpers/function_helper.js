@@ -21,4 +21,4 @@ exports.comparePassword = async (password, hashPass) => {
     return match;
 }
 
-exports.response = (data=[], msg="") => ({message : msg, data});
+exports.response = (data=[], msg="") => ({msg, data});
